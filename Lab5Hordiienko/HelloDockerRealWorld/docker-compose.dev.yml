@@ -1,0 +1,22 @@
+services:
+  api:
+    build: ./api
+    command: npm run start
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./api/src:/usr/src/app/src
+      - /usr/src/app/node_modules
+    environment:
+      - PORT=3001
+      - HOST=localhost
+      - MONGO_URL=mongodb://api_db:27017/api
+    depends_on:
+      - api_db
+  api_db:
+    image: mongo:latest
+    volumes:
+      - mongodb_api:/data/db
+
+volumes:
+  mongodb_api:
